@@ -26,8 +26,20 @@ function handleSubmit(e){
     button.setAttribute('id',formData.Email);
     button.setAttribute('class','delete');
     button.addEventListener("click",deleteUser);
+    var editButton = document.createElement('button');
+    editButton.textContent="Edit";
+    editButton.style.background="black";
+    editButton.style.color="white";
+    editButton.style.marginLeft="10px";
+    editButton.setAttribute('id',formData.Email);
+    editButton.setAttribute('class','edit');
+    editButton.addEventListener("click",editUser);
+    list.appendChild(editButton);
     list.appendChild(button);
     user.appendChild(list);
+    document.getElementById('Name').value="";
+  document.getElementById('Email').value="";
+  document.getElementById('Phone').value="";
     error.innerText="";
    }
    else{
@@ -37,12 +49,22 @@ function handleSubmit(e){
 
 function deleteUser(e){
 var users = document.getElementsByTagName("li");
+localStorage.removeItem(e.target.id);
 console.log(users[0].id);
 for(let i=0;i<users.length;i++){
   if(e.target.id===users[i].id){
      users[i].remove();
   }
+ }
 }
+
+function editUser(e){
+  let user = JSON.parse(localStorage.getItem(e.target.id));
+  deleteUser(e);
+
+  document.getElementById('Name').value=user.Name;
+  document.getElementById('Email').value=user.Email;
+  document.getElementById('Phone').value=user.Phone;
 }
 
 
