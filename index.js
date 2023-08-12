@@ -13,17 +13,36 @@ function handleSubmit(e){
    if(validateForm()){
     localStorage.setItem(formData.Email,JSON.stringify(formData));
     var list = document.createElement('li');
+    list.setAttribute("id",formData.Email);
     list.textContent=`${formData.Name}-${formData.Email}-${formData.Phone}`;
     list.style.fontWeight='600'
     list.style.marginTop='10px';
     list.style.fontSize='18px'
-
+    var button = document.createElement('button');
+    button.textContent="Delete";
+    button.style.background="black";
+    button.style.color="white";
+    button.style.marginLeft="10px";
+    button.setAttribute('id',formData.Email);
+    button.setAttribute('class','delete');
+    button.addEventListener("click",deleteUser);
+    list.appendChild(button);
     user.appendChild(list);
     error.innerText="";
    }
    else{
     error.innerText=errorMessages;
    }
+}
+
+function deleteUser(e){
+var users = document.getElementsByTagName("li");
+console.log(users[0].id);
+for(let i=0;i<users.length;i++){
+  if(e.target.id===users[i].id){
+     users[i].remove();
+  }
+}
 }
 
 
