@@ -6,11 +6,19 @@ function handleInputChange(event) {
   formData[name] = value;
 }
 var error = document.getElementById('error');
+var user = document.getElementById('userDetails');
 let  errorMessages ="";
 function handleSubmit(e){
    e.preventDefault();
    if(validateForm()){
-    localStorage.setItem("user",JSON.stringify(formData));
+    localStorage.setItem(formData.Email,JSON.stringify(formData));
+    var list = document.createElement('li');
+    list.textContent=`${formData.Name}-${formData.Email}-${formData.Phone}`;
+    list.style.fontWeight='600'
+    list.style.marginTop='10px';
+    list.style.fontSize='18px'
+
+    user.appendChild(list);
     error.innerText="";
    }
    else{
@@ -34,11 +42,7 @@ function validateForm() {
     errorMessages = "Email is required.";
     return false;
   } 
-
-  if (!formData["Password"] || formData["Password"].length<8) {
-    errorMessages = "Enter valid password.";
-    return false;
-  } 
+ 
 
   if (!formData["Phone"]) {
     errorMessages =  "Phone Numberis required.";
