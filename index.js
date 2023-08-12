@@ -1,55 +1,48 @@
 const formData = {};
 function handleInputChange(event) {
   const input = event.target;
-  const name = input.getAttribute("placeholder");
+  const name = input.getAttribute("id");
   const value = input.value;
   formData[name] = value;
 }
+var error = document.getElementById('error');
+let  errorMessages ="";
+function handleSubmit(e){
+   e.preventDefault();
+   if(validateForm()){
+    localStorage.setItem("user",JSON.stringify(formData));
+    error.innerText="";
+   }
+   else{
+    error.innerText=errorMessages;
+   }
+}
+
+
 
 function validateForm() {
-    const name = formData["Name"];
-    const email = formData["Email"];
-    const phoneNumber = formData["Phone Number"];
   
-    if (name=== "" || email=== "" || phoneNumber=== "" ) {
-      console.log("Please fill in all fields.");
-      return false;
-    }
-    return true;
+ 
+
+  if (!formData["Name"]) {
+    errorMessages = "Name is required.";
+    
+    return false;
+  }
+
+  if (!formData["Email"] || !formData["Email"].includes("@")) {
+    errorMessages = "Email is required.";
+    return false;
   } 
 
+  if (!formData["Password"] || formData["Password"].length<8) {
+    errorMessages = "Enter valid password.";
+    return false;
+  } 
 
-function handleSubmit(event) {
-    event.preventDefault();
-    if (validateForm()) {
-        console.log("Form data:", formData);
-      }
-    }
-
-const listElements = document.getElementsByTagName('li');
-
-listElements[0].addEventListener('click', function() {
-    this.style.backgroundColor = 'green';
-});
-
-listElements[1].addEventListener('click', function() {
-    this.style.backgroundColor = 'yellow';
-});
-
-listElements[0].addEventListener('mouseover', function() {
-    this.style.fontSize = '20px';
-});
-
-listElements[1].addEventListener('mouseover', function() {
-    this.style.fontSize = '20px';
-});
-
-
-listElements[0].addEventListener('mouseout', function() {
-    this.style.fontSize = '16px';
-});
-
-listElements[1].addEventListener('mouseout', function() {
-    this.style.fontSize = '16px';
-});
-
+  if (!formData["Phone"]) {
+    errorMessages =  "Phone Numberis required.";
+    return false;
+  } 
+  return true;
+}
